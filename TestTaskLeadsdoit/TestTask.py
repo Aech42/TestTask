@@ -11,28 +11,30 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, WebDriverException, TimeoutException
 
+
 '''Logging'''
-
-log_filename = 'app.txt'
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-file_handler = logging.FileHandler(log_filename)
-file_handler.setLevel(logging.INFO)
-file_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-file_handler.setFormatter(file_formatter)
-logging.getLogger().addHandler(file_handler)
-
-'''Command Line Logging'''
 
 parser = argparse.ArgumentParser(description="Run application")
 parser.add_argument("--log", action="store_true", help="Enable console logging")
 args = parser.parse_args()
 
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 if args.log:
+    log_filename = 'app.txt'
+    file_handler = logging.FileHandler(log_filename)
+    file_handler.setLevel(logging.INFO)
+    file_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(file_formatter)
+    logger.addHandler(file_handler)
+
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.INFO)
     console_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     console_handler.setFormatter(console_formatter)
-    logging.getLogger().addHandler(console_handler)
+    logger.addHandler(console_handler)
+
 
 '''Desired Capabilities'''
 
@@ -65,9 +67,6 @@ LOCATORS = {
     'game_select': (MobileBy.XPATH, "//*[@class='games-list__game']"),
     'game_start_button': (MobileBy.XPATH, "//button[@id='GameItem.play-big-catch-bonanza-netgame']"),
     'game_start': (MobileBy.XPATH, "//*[@id='main-game-frame']")
-    #//*[@id='casinoClient'] - works but game just started to load
-    #//div[7]/div[2]/div/div[1]/div[2]/div/[@class='divgame-popup__game']
-    #//*[@id='main-game-frame']
 }
 
 '''Functions'''
@@ -138,7 +137,7 @@ class MyApplication:
     def verify_site_is_loaded(self):
         try:
             WebDriverWait(self.driver, 15).until(
-                EC.title_contains('СлотоКінг онлайн казино Україна')
+                EC.title_contains('Онлайн казино СлотоКінг - номер 1 в Україні')
             )
             logging.info("Site loaded successfully.")
             return True
