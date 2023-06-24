@@ -2,6 +2,16 @@ APK with android app located in the APK folder and named 'app-release-unsigned.a
 Android application code locate in the 'MyApplication' folder.
 Autotest script located in the 'TestTaskLeadsdoit' > 'TestTask.py'.
 
+Setup environment:
+1. Install NodeJS
+2. Install Python
+3. Install Appium
+4. Install UIautomator2 driver
+5. Install Java
+6. Install Android Studio
+7. Add variables for Java and Android SDK
+8. In project install requests and appium-python-client
+
 Test script setupped to start test case using emulator Pixel 6 Pro and Android API 34 via Appium
 
 You can change launch parameters in the code by changing info in the 'desired_caps':
