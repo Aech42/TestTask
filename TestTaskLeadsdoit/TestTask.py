@@ -11,7 +11,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException, WebDriverException, TimeoutException
 
-
 '''Logging'''
 
 parser = argparse.ArgumentParser(description="Run application")
@@ -21,14 +20,14 @@ args = parser.parse_args()
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-if args.log:
-    log_filename = 'app.txt'
-    file_handler = logging.FileHandler(log_filename)
-    file_handler.setLevel(logging.INFO)
-    file_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-    file_handler.setFormatter(file_formatter)
-    logger.addHandler(file_handler)
+log_filename = 'app.txt'
+file_handler = logging.FileHandler(log_filename)
+file_handler.setLevel(logging.INFO)
+file_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(file_formatter)
+logger.addHandler(file_handler)
 
+if args.log:
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.INFO)
     console_formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
@@ -147,7 +146,7 @@ class MyApplication:
 
     def verify_user_registered(self):
         try:
-            deposit_button = WebDriverWait(self.driver, 30).until(
+            deposit_button = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located(LOCATORS['deposit_button'])
             )
             if deposit_button:
@@ -184,7 +183,7 @@ MAX_RETRY_COUNT = 0
 def main(retry_count=0):
     driver = None
     try:
-        driver = webdriver.Remote("http://0.0.0.0:4723", desired_caps)
+        driver = webdriver.Remote("http://localhost:4723", desired_caps)
         driver.start_recording_screen()
 
         app = MyApplication(driver)
